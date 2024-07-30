@@ -1,0 +1,1 @@
+python-fastlz @ git+https://github.com/rdjliaison/python-fastlz/tree/fix/py-ssize-t-clean
