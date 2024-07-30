@@ -1,4 +1,4 @@
-WORLD_PATH = ""
+WORLD_PATH = "/save00/world/"
 
 WORLD_CHUNK_WIDTH = 70  # ng=70 ng+,nightmare=64
 
