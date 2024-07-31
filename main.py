@@ -1,5 +1,5 @@
 from pixel_scenes import PixelSceneFile
-from stream_info import parse_stream_info
+from stream_info import StreamInfoFile
 from tools.stats import stream_info_stats
 
 
@@ -12,9 +12,9 @@ def trim_pixel_scenes():
 
 
 def main():
-    #items = parse_stream_info()
-    #stream_info_stats(items)
-    #return
+    #f = StreamInfoFile()
+    #stream_info_stats(f.items)
+    #f.save()
     trim_pixel_scenes()
     return
     #print("=-=-=-=-=-=-=-=")
