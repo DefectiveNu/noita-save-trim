@@ -1,3 +1,5 @@
+import struct
+
 from noita_bin_file import NoitaBinFile
 from pixel_scenes import PixelScene
 from stream_info import StreamInfoItem

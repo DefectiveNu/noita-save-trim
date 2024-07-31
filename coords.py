@@ -46,3 +46,8 @@ def num_to_chunk(num):
     chunk_y = round(num / 2000)
     chunk_x = num - (chunk_y * 2000)
     return int(chunk_x), int(chunk_y)
+
+
+def chunk_to_num(chunk_x, chunk_y):
+    num = 2000 * chunk_y + chunk_x
+    return num

@@ -1,4 +1,4 @@
-WORLD_PATH = "/save00/world/"
+WORLD_PATH = "./save00/world/"
 
 WORLD_CHUNK_WIDTH = 70  # ng=70 ng+,nightmare=64
 
@@ -57,3 +57,5 @@ ALWAYS_PRUNE = [
     b"wandcave/floor_rubble",
     b"vault/pipe",
 ]
+
+DEBUG = False

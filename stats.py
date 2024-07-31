@@ -2,8 +2,10 @@ import json
 from typing import List
 
 from constants import WORLD_PATH
+from coords import get_world_from_x
 from flatten import flatten
 from pixel_scenes import PixelScene
+from stream_info import StreamInfoItem
 from util import pixel_scene_key, stream_info_key
 
 
@@ -125,12 +127,17 @@ def pixel_scene_tree(items):
         f.write(json.dumps(item_tree, indent=2))
 
 
-def stream_info_stats(items):
+def stream_info_stats(items: List[StreamInfoItem]):
+    print("stats world 0")
     item_stats = {}
     for item in items:
+        if get_world_from_x(item.x) != 0:
+            continue
         key = stream_info_key(item)
         if key not in item_stats:
             item_stats[key] = 0
         item_stats[key] += 1
     for k, v in sorted(item_stats.items(), key=lambda i: item_stats[i[0]]):
         print(f"{v: 6d} \"{k}\",")
+    for k in sorted(item_stats.keys()):
+        print(k)
