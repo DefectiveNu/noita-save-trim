@@ -1,5 +1,5 @@
 from constants import WORLD_PATH
-from coords import chunk_to_num
+from tools.coords import chunk_to_num
 from noita_bin_file import NoitaBinFile
 
 

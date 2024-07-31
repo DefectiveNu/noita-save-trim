@@ -1,4 +1,6 @@
 from pixel_scenes import PixelSceneFile
+from stream_info import parse_stream_info
+from tools.stats import stream_info_stats
 
 
 def trim_pixel_scenes():

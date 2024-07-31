@@ -2,11 +2,11 @@ import json
 from typing import List
 
 from constants import WORLD_PATH
-from coords import get_world_from_x
-from flatten import flatten
+from tools.coords import get_world_from_x
+from tools.flatten import flatten
 from pixel_scenes import PixelScene
 from stream_info import StreamInfoItem
-from util import pixel_scene_key, stream_info_key
+from tools.util import pixel_scene_key, stream_info_key
 
 
 # bunch of random stuff I used to get an idea what was stored and how

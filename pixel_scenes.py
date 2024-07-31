@@ -1,9 +1,9 @@
 from constants import WORLD_PATH, KEEP_ALL_WORLDS_DIST, AGGRO_CLEAN_DIST, ALWAYS_KEEP, ALWAYS_PRUNE, DEBUG
-from coords import get_world_from_x
+from tools.coords import get_world_from_x
 from noita_bin_file import NoitaBinFile
 from typing import List
 
-from conversions import serialize_int, serialize_str, bytes_to_int, bytes_to_float
+from tools.conversions import serialize_int, serialize_str, bytes_to_int, bytes_to_float
 
 
 class PixelScene:
