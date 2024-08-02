@@ -1,0 +1,119 @@
+    position.x="11252"      21.9765625
+    position.y="-8363.98"  -16.3358984375
+version 24
+seed 0
+frames_played 107
+header_unk_1 1071924284
+a:0.0 b:428 count:82 (-512.0,194.0) b'data/weather_gfx/limit_y/background_cave_04_alt.png'
+a:101.0 b:0 count:0 (0.0,-512.0) b'data/biome_impl/mountain/left_entrance_background.png'
+a:50.0 b:0 count:0 (-512.0,0.0) b'data/biome_impl/mountain/left_stub_background.png'
+a:50.0 b:0 count:0 (0.0,0.0) b'data/biome_impl/mountain/left_entrance_below_background.png'
+a:50.0 b:0 count:0 (1024.0,12770.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (512.0,12770.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (0.0,12770.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-512.0,12770.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-1024.0,12770.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-1536.0,12770.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-2048.0,12770.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-2560.0,12770.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-3072.0,12770.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (2047.0,10210.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (1535.0,10210.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (1023.0,10210.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (511.0,10210.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-1.0,10210.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-513.0,10210.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-1025.0,10210.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-1537.0,10210.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-2049.0,10210.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-2561.0,10210.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-3073.0,10210.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (1535.0,8162.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (1023.0,8162.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (511.0,8162.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-1.0,8162.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-513.0,8162.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-1025.0,8162.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-1537.0,8162.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-2049.0,8162.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-2561.0,8162.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (1023.0,6114.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (511.0,6114.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-1.0,6114.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-513.0,6114.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-1025.0,6114.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-1537.0,6114.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-2049.0,6114.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (2047.0,4578.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (1535.0,4578.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (1023.0,4578.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (511.0,4578.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-1.0,4578.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-513.0,4578.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-1025.0,4578.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-1537.0,4578.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-2049.0,4578.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-2561.0,4578.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (1535.0,2530.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (1023.0,2530.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (511.0,2530.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-1.0,2530.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-513.0,2530.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-1025.0,2530.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-1537.0,2530.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-2049.0,2530.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (1535.0,994.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (1023.0,994.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (511.0,994.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-1.0,994.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-513.0,994.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-1025.0,994.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-1537.0,994.0) b'data/biome_impl/temple/wall_background.png'
+a:35.0 b:0 count:0 (-4129.0,10533.0) b'data/biome_impl/hidden/crypt_left.png'
+a:30.0 b:0 count:0 (-3072.0,-32.0) b'data/biome_impl/liquidcave/liquidcave_corner.png'
+a:30.0 b:0 count:0 (-2120.0,8446.0) b'data/biome_impl/hidden/vault_inside.png'
+a:30.0 b:0 count:0 (2976.0,13692.0) b'data/biome_impl/hidden/boss_arena_under.png'
+a:30.0 b:0 count:0 (4238.0,15055.0) b'data/biome_impl/hidden/boss_arena_under_right.png'
+a:30.0 b:0 count:0 (3425.0,12650.0) b'data/biome_impl/hidden/boss_arena.png'
+a:30.0 b:0 count:0 (-4608.0,-64.0) b'data/biome_impl/liquidcave/liquidcave_top.png'
+a:30.0 b:0 count:0 (-5120.0,-32.0) b'data/biome_impl/liquidcave/liquidcave_corner2.png'
+a:30.0 b:0 count:0 (3419.0,2652.0) b'data/biome_impl/hidden/fungal_caverns_1.png'
+a:30.0 b:0 count:0 (-5400.0,21887.0) b'data/biome_impl/hidden/completely_random.png'
+a:30.0 b:0 count:0 (-4096.0,-64.0) b'data/biome_impl/liquidcave/liquidcave_top.png'
+a:30.0 b:0 count:0 (-3584.0,-64.0) b'data/biome_impl/liquidcave/liquidcave_top.png'
+a:30.0 b:0 count:0 (-4448.0,4487.0) b'data/biome_impl/hidden/under_the_wand_cave.png'
+a:30.0 b:0 count:0 (1785.0,1325.0) b'data/biome_impl/hidden/holy_mountain_1.png'
+a:30.0 b:0 count:0 (2806.0,6614.0) b'data/biome_impl/hidden/jungle_right.png'
+a:30.0 b:0 count:0 (700.0,-440.0) b'data/biome_impl/hidden/mountain_text.png'
+a:30.0 b:0 count:0 (4256.0,26954.0) b'data/biome_impl/hidden/completely_random_2.png'
+unk_1 1106247680
+unk_2 0
+unk_3 0
+count_chunk_status 21
+schema b'c8ecfb341d22516067569b04563bff9c'
+gap_1 b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x07\xe8\x00\x07\x00\x1f\x00\x11\x001\x00 \x00\x00\x00\x00\x00\x00*\xc0\xff\xff\xde\xc0\x00\x00\x02/\x00\x00\x01r'
+gap_1 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 07 e8 00 07 00 1f 00 11 00 31 00 20 00 00 00 00 00 00 2a c0 ff ff de c0 00 00 02 2f 00 00 01 72
+(20,-18) 1
+(21,-18) 1
+(22,-18) 1
+(23,-18) 1
+(20,-17) 1
+(21,-17) 1
+(22,-17) 1
+(23,-17) 1
+(20,-16) 1
+(21,-16) 1
+(22,-16) 1
+(-2,-2) 1
+(-1,-2) 1
+(-2,-1) 1
+(-1,-1) 1
+(0,-1) 1
+(-1,0) 1
+(0,0) 1
+(1,0) 1
+(0,1) 1
+(1,1) 1
+
+Process finished with exit code 0
+

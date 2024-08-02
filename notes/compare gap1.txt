@@ -1,0 +1,11 @@
+all gap1 starts with 0..0 0..0 0..0 0..0 00 07 e8 00 07
+
+                (1)          (2)          (3)   (4)          (5)          (6)          (7)
+pre-crash gap_1 00 16 00 16  00 05 00 1f  0..0  00 15 d7 c0  00 00 4d 00  00 00 02 2f  00 00 01 72  header_unk_1 1211382313 count 26798 unk_1 0          count_chunk_status 11944
+current   gap_1 00 1f 00 11  00 1c 00 19  0..0  00 00 2a c0  ff ff de c0  00 00 02 2f  00 00 01 72  header_unk_1 1214709732 count  6394 unk_1 0          count_chunk_status 14301 
+regen si  gap_1 00 1f 00 11  00 26 00 2c  0..0  00 00 2a c0  ff ff de c0  00 00 02 2f  00 00 01 72  header_unk_1 1078914789 count    79 unk_1 1106247680 count_chunk_status 18
+si wps    gap_1 00 1f 00 11  00 31 00 20  0..0  00 00 2a c0  ff ff de c0  00 00 02 2f  00 00 01 72  header_unk_1 1071924284 count    82 unk_1 1106247680 count_chunk_status 21
+si wps wt ws _1 00 1f 00 13  00 04 00 2b  0..0  00 00 2a c0  ff ff de c0  00 00 02 2f  00 00 01 72  header_unk_1 1071924284 count    82 unk_1 1106247680 count_chunk_status 21
+
+
+unk_1 1106247680 : float = 30.0 : 41 f0 00 00

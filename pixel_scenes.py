@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from constants import WORLD_PATH, KEEP_ALL_WORLDS_DIST, AGGRO_CLEAN_DIST, ALWAYS_KEEP, ALWAYS_PRUNE, DEBUG
 from tools.coords import get_world_from_x
 from noita_bin_file import NoitaBinFile
@@ -52,10 +54,10 @@ class PixelScene:
         #    print("unk1", self)
 
     def __str__(self):
-        return f"PixelScene({self.x}, {self.y}) mat {self.mat[:500]} visual {self.visual} bg {self.bg} {self.unk1}"
+        return f"PixelScene({self.x}, {self.y}) mat {self.mat[:500]} visual {self.visual} bg {self.bg} entity {self.unk1}"
 
-    def __repr__(self):
-        return str(self)
+    #def __repr__(self):
+    #    return str(self)
 
     def __bytes__(self):
         ret = serialize_int(self.x)
@@ -97,6 +99,19 @@ class PixelSceneFile(NoitaBinFile):
         self.footer = self.read_int()
         if self.contents[self.read_pos:]:  # check for unread contents
             raise Exception("file not fully processed")
+
+    def get_world_width(self):
+        landmarks = set()
+        for item in self.scenes_1 + self.scenes_2:
+            if item.bg == b'data/biome_impl/temple/altar_background.png':
+                landmarks.add(item.x)
+        landmark_x = sorted(landmarks)
+        landmark_dist = set()
+        last_pos = landmark_x[0]
+        for lm in landmark_x[1:]:
+            landmark_dist.add(lm - last_pos)
+            last_pos = lm
+        return int(min(landmark_dist) / 512)
 
     def trim(self):
         self.scenes_1 = [scene for scene in self.scenes_1 if not trim_filter(scene)]

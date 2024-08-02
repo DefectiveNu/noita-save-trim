@@ -14,19 +14,37 @@ class StreamInfoItem:
     y: float
     path: bytes
 
-    def __init__(self, file: NoitaBinFile):
-        self.a = file.read_float()
-        self.b = file.read_int()
-        self.count = file.read_int()
-        self.x = file.read_float()
-        self.y = file.read_float()
-        self.path = file.read_string()
+    def __init__(
+        self,
+        file: NoitaBinFile = None,
+        a: float = None,
+        b: int = None,
+        x: float = None,
+        y: float = None,
+        path: bytes = None
+    ):
+        if file is not None:
+            self.a = file.read_float()
+            self.b = file.read_int()
+            self.count = file.read_int()
+            self.x = file.read_float()
+            self.y = file.read_float()
+            self.path = file.read_string()
+        else:
+            self.a = float(a)
+            self.b = int(b)
+            self.count = 0
+            self.x = float(x)
+            self.y = float(y)
+            if isinstance(path, str):
+                path = path.encode()
+            self.path = path
 
     def __str__(self):
-        return f"StreamInfoItem({self.x}, {self.y}) count {self.count} path {self.path[:500]} {self.a} {self.b}"
+        return f"StreamInfoItem({self.x}, {self.y}) {self.path[:500].decode(errors='ignore')}"
 
-    def __repr__(self):
-        return str(self)
+    #def __repr__(self):
+    #    return f"StreamInfoItem({self.x}, {self.y}) count {self.count} path {self.path[:500]} {self.a} {self.b} {hex(id(self))}"
 
     def __bytes__(self):
         ret = serialize_float(self.a)
@@ -36,6 +54,19 @@ class StreamInfoItem:
         ret += serialize_float(self.y)
         ret += serialize_str(self.path)
         return ret
+
+    def __eq__(self, other):
+        return (
+                self.a == other.a and
+                self.b == other.b and
+                # self.count == other.count and  # should be a header but who's counting (boo)
+                self.x == other.x and
+                self.y == other.y and
+                self.path == other.path
+        )
+
+    def debug(self):
+        print(f"a:{self.a} b:{self.b} count:{self.count} ({self.x},{self.y}) {self.path}")
 
 
 class ChunkStatus:
@@ -53,6 +84,18 @@ class ChunkStatus:
         ret += serialize_int(self.chunk_y)
         ret += serialize_int(self.chunk_status, 1)
         return ret
+
+    def __eq__(self, other):
+        return (
+            self.chunk_x == other[0] and
+            self.chunk_y == other[1]
+        )
+
+    def __str__(self):
+        return f"ChunkStatus({self.chunk_x}, {self.chunk_y}) {self.chunk_status}"
+
+    def debug(self):
+        print(f"({self.chunk_x},{self.chunk_y}) {self.chunk_status}")
 
 
 class StreamInfoFile(NoitaBinFile):
@@ -93,8 +136,11 @@ class StreamInfoFile(NoitaBinFile):
         if self.contents[self.read_pos:]:  # check for unread contents
             raise Exception("file not fully processed")
 
-    def save(self):
+    def save(self, suffix=""):
         self.read_pos = 0
+        self.items[0].count = len(self.items)
+        for item in self.items[1:]:
+            item.count = 0
         self.contents = serialize_int(self.version)
         self.contents += serialize_int(self.seed)
         self.contents += serialize_int(self.frames_played)
@@ -107,4 +153,21 @@ class StreamInfoFile(NoitaBinFile):
         self.contents += serialize_str(self.schema)
         self.contents += self.gap_1
         self.contents += b''.join([bytes(csi) for csi in self.chunk_status_items])
-        self.save_compressed()
+        self.save_compressed(suffix=suffix)
+
+    def debug(self):
+        print("version", self.version)
+        print("seed", self.seed)
+        print("frames_played", self.frames_played)
+        print("header_unk_1", self.header_unk_1)
+        for item in self.items:
+            item.debug()
+        print("unk_1", self.unk_1)
+        print("unk_2", self.unk_2)
+        print("unk_3", self.unk_3)
+        print("count_chunk_status", self.count_chunk_status)
+        print("schema", self.schema)
+        print("gap_1", self.gap_1)
+        print("gap_1", self.gap_1.hex(' '))
+        for csi in self.chunk_status_items:
+            csi.debug()

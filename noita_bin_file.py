@@ -70,9 +70,9 @@ class NoitaBinFile:
         with open(self.filename + ".decompressed", "wb") as f:
             f.write(size_bytes + size_bytes + self.contents)
 
-    def save_compressed(self):
+    def save_compressed(self, suffix=""):
         #size_bytes = int.to_bytes(self.decompressed_size or len(self.contents), 4, 'little')
         compressed_contents = fastlz.compress(self.contents)
         compressed_size = int.to_bytes(len(compressed_contents)-4, 4, 'little')
-        with open(self.filename, "wb") as f:
+        with open(self.filename + suffix, "wb") as f:
             f.write(compressed_size + compressed_contents)
