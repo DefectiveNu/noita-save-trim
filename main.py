@@ -1,12 +1,4 @@
-import os
-import re
-from pprint import pprint
-
-from noita_bin_file import NoitaBinFile
 from pixel_scenes import PixelSceneFile
-from stream_info import StreamInfoFile
-from tools.coords import num_to_coords
-from tools.stats import stream_info_stats
 
 
 def trim_pixel_scenes():

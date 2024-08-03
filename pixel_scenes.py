@@ -145,11 +145,11 @@ def trim_filter(item: PixelScene) -> bool:
             for prop in all_scan:
                 if inc_item in getattr(item, prop):
                     return False
-        if DEBUG: print(f"prune {item} by agro")
+        if DEBUG: print(f"prune {world} {item} by agro")
         return True
     if delete_mode == "safe":
         for prune_item in ALWAYS_PRUNE:
             if prune_item in item.mat:
-                if DEBUG: print(f"prune {item} by {prune_item}")
+                if DEBUG: print(f"prune {world} {item} by {prune_item}")
                 return True
         return False

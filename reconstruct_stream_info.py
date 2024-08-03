@@ -1,11 +1,13 @@
+import argparse
 import os
 import re
 from pprint import pprint
 
+from constants import WORLD_PATH
 from noita_bin_file import NoitaBinFile
 from stream_info import StreamInfoFile, StreamInfoItem
 from pixel_scenes import PixelSceneFile
-from tools.coords import num_to_coords
+from tools.coords import num_to_coords, get_world_from_x
 from tools.stats import stream_info_stats
 
 MERGE_ITEMS = [
@@ -26,6 +28,7 @@ MERGE_ITEMS = [
     # b'data/biome_impl/pillars/pillar',  # unsure if safe
     b'data/biome_impl/pyramid/entrance',
     b'data/biome_impl/pyramid/top',
+    b'data/biome_impl/pyramid/',
     # b'data/biome_impl/rainforest/plantlife',
     # b'data/biome_impl/rainforest/hut',
     b'data/biome_impl/robot_egg',
@@ -60,13 +63,59 @@ MERGE_ITEMS = [
     # b'data/biome_impl/coalmine/oiltank_puzzle',
 ]
 
+# boss (W0 only) is in WPS only, not SI
+PYRAMID_STRUCTURE = [
+    StreamInfoItem(None, 101.0,            0,  8128.0,   161.0, b'data/weather_gfx/limit_y/background_pyramid.png'),
+    StreamInfoItem(None, 101.0,            0, 11200.0,   161.0, b'data/weather_gfx/limit_y/background_pyramid.png'),  # ambiguous, can't use to anchor
+    StreamInfoItem(None, 99.9000015258789, 0,  8192.0,     0.0, b'data/biome_impl/pyramid/left_background.png'),
+    StreamInfoItem(None, 50.0,             0,  8704.0,  -512.0, b'data/biome_impl/pyramid/entrance_background.png'),
+    StreamInfoItem(None, 99.9000015258789, 0,  9216.0, -1024.0, b'data/biome_impl/pyramid/left_background.png'),
+    StreamInfoItem(None, 99.9000015258789, 0, 10240.0, -1024.0, b'data/biome_impl/pyramid/right_background.png'),
+    StreamInfoItem(None, 99.9000015258789, 0, 10752.0,  -512.0, b'data/biome_impl/pyramid/right_background.png'),
+    StreamInfoItem(None, 99.9000015258789, 0, 11264.0,     0.0, b'data/biome_impl/pyramid/right_background.png'),
+    StreamInfoItem(None, 50.0,             0,  9728.0, -1536.0, b'data/biome_impl/pyramid/top_background.png'),
+    StreamInfoItem(None, 40.0,             0,  9216.0,  -512.0, b'data/weather_gfx/background_pyramid.png'),
+    StreamInfoItem(None, 40.0,             0,  9216.0,  -256.0, b'data/weather_gfx/background_pyramid.png'),
+]
+
+PYRAMID_PATHS = [item.path for item in PYRAMID_STRUCTURE]
+
+
+def rebuild_pyramid(si_file: StreamInfoFile):
+    # could adapt to regen other worlds...
+    # TODO: check chunk status before adding
+    world_target = 0
+    w0_items = [item for item in si_file.items if get_world_from_x(item.x) == world_target]
+    structure_matched_item = item = None
+    for item in w0_items:
+        if item.path in PYRAMID_PATHS and b'limit_y' not in item.path:
+            structure_matched_item = next(si for si in PYRAMID_STRUCTURE if si.path == item.path and si.y == item.y)
+            print("match item", item)
+            break
+    if structure_matched_item is None or item is None:
+        print(f"can't rebuild pyramid for world {world_target}: nothing to work with")
+    else:
+        offset_x = item.x - structure_matched_item.x
+        print(f"rebuild world {world_target} pyramid, displaced by {offset_x}")
+        for psi in PYRAMID_STRUCTURE:
+            psi.x += offset_x
+            if psi not in si_file.items:
+                print("add item", psi)
+                si_file.items.append(psi)
+            else:
+                print("skip item", psi)
+
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--rebuild-pyramid", action='store_true')
+    do_rebuild_pyramid = parser.parse_args().rebuild_pyramid
     si_file = StreamInfoFile()
     wps_file = PixelSceneFile()
     wps_bg_items = [item for item in wps_file.scenes_1 + wps_file.scenes_2 if any(x in item.bg for x in MERGE_ITEMS)]
-    pprint(wps_bg_items)
-    print(len(wps_bg_items))
+    #pprint(wps_bg_items)
+    print("wps items", len(wps_bg_items))
+    print("si items", len(si_file.items))
     merged_items = 0
     skipped_items = 0
     for wps_bg in wps_bg_items:
@@ -81,11 +130,21 @@ def main():
         if si_item not in si_file.items:
             merged_items += 1
             print("merging item", si_item)
+            si_file.items.append(si_item)
         else:
             skipped_items += 1
             #print("skipped item", si_item)
     print(f"merged {merged_items}  skipped {skipped_items}")
+    print("si items", len(si_file.items))
+    if do_rebuild_pyramid:
+        rebuild_pyramid(si_file)
+        print("si items", len(si_file.items))
+
     si_file.save("_reconstruct")
+    '''si2 = StreamInfoFile(WORLD_PATH + ".stream_info_reconstruct")
+    print(si_file)
+    print(si2)
+    print(si2.short_filename)'''
 
 
 if __name__ == '__main__':

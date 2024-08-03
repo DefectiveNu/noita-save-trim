@@ -1,0 +1,74 @@
+.stream_info_reconstruct
+stats world 0
+c(21.875, 0.314453125) a:101.0 b:0 count:0 (11200.0,161.0) b'data/weather_gfx/limit_y/background_pyramid.png' x
+c(15.875, 0.314453125) a:101.0 b:0 count:0 (8128.0,161.0) b'data/weather_gfx/limit_y/background_pyramid.png' x
+c(19.0, -3.0) a:50.0 b:0 count:0 (9728.0,-1536.0) b'data/biome_impl/pyramid/top_background.png' x
+c(17.0, -1.0) a:50.0 b:0 count:0 (8704.0,-512.0) b'data/biome_impl/pyramid/entrance_background.png' x
+
+.stream_info_merged
+stats world 0
+c(21.875, 0.314453125) a:101.0 b:0 count:0 (11200.0,161.0) b'data/weather_gfx/limit_y/background_pyramid.png' x
+c(15.875, 0.314453125) a:101.0 b:0 count:0 (8128.0,161.0) b'data/weather_gfx/limit_y/background_pyramid.png' x
+c(18.0, -2.0) a:99.9000015258789 b:0 count:0 (9216.0,-1024.0) b'data/biome_impl/pyramid/left_background.png'
+c(21.0, -1.0) a:99.9000015258789 b:0 count:0 (10752.0,-512.0) b'data/biome_impl/pyramid/right_background.png'
+c(20.0, -2.0) a:99.9000015258789 b:0 count:0 (10240.0,-1024.0) b'data/biome_impl/pyramid/right_background.png'
+c(16.0, 0.0) a:99.9000015258789 b:0 count:0 (8192.0,0.0) b'data/biome_impl/pyramid/left_background.png'
+c(22.0, 0.0) a:99.9000015258789 b:0 count:0 (11264.0,0.0) b'data/biome_impl/pyramid/right_background.png'
+c(19.0, -3.0) a:50.0 b:0 count:0 (9728.0,-1536.0) b'data/biome_impl/pyramid/top_background.png' x
+c(17.0, -1.0) a:50.0 b:0 count:0 (8704.0,-512.0) b'data/biome_impl/pyramid/entrance_background.png' x
+c(18.0, -1.0) a:40.0 b:0 count:0 (9216.0,-512.0) b'data/weather_gfx/background_pyramid.png'
+c(18.0, -0.5) a:40.0 b:0 count:0 (9216.0,-256.0) b'data/weather_gfx/background_pyramid.png'
+
+
+
+.stream_info_reconstruct
+stats world 1
+c(87.0, -1.0) a:50.0 b:0 count:0 (44544.0,-512.0) b'data/biome_impl/pyramid/entrance_background.png'
+c(89.0, -3.0) a:50.0 b:0 count:0 (45568.0,-1536.0) b'data/biome_impl/pyramid/top_background.png'
+
+.stream_info_merged
+stats world 1
+c(85.875, 0.314453125) a:101.0 b:0 count:0 (43968.0,161.0) b'data/weather_gfx/limit_y/background_pyramid.png'
+c(91.875, 0.314453125) a:101.0 b:0 count:0 (47040.0,161.0) b'data/weather_gfx/limit_y/background_pyramid.png'
+c(91.0, -1.0) a:99.9000015258789 b:0 count:0 (46592.0,-512.0) b'data/biome_impl/pyramid/right_background.png'
+c(88.0, -2.0) a:99.9000015258789 b:0 count:0 (45056.0,-1024.0) b'data/biome_impl/pyramid/left_background.png'
+c(86.0, 0.0) a:99.9000015258789 b:0 count:0 (44032.0,0.0) b'data/biome_impl/pyramid/left_background.png'
+c(92.0, 0.0) a:99.9000015258789 b:0 count:0 (47104.0,0.0) b'data/biome_impl/pyramid/right_background.png'
+c(90.0, -2.0) a:99.9000015258789 b:0 count:0 (46080.0,-1024.0) b'data/biome_impl/pyramid/right_background.png'
+c(87.0, -1.0) a:50.0 b:0 count:0 (44544.0,-512.0) b'data/biome_impl/pyramid/entrance_background.png'
+c(89.0, -3.0) a:50.0 b:0 count:0 (45568.0,-1536.0) b'data/biome_impl/pyramid/top_background.png'
+c(88.0, -1.0) a:40.0 b:0 count:0 (45056.0,-512.0) b'data/weather_gfx/background_pyramid.png'
+c(88.0, -0.5) a:40.0 b:0 count:0 (45056.0,-256.0) b'data/weather_gfx/background_pyramid.png'
+
+
+
+
+.stream_info_reconstruct
+stats world -1
+c(-51.0, -3.0) a:50.0 b:0 count:0 (-26112.0,-1536.0) b'data/biome_impl/pyramid/top_background.png'
+c(-53.0, -1.0) a:50.0 b:0 count:0 (-27136.0,-512.0) b'data/biome_impl/pyramid/entrance_background.png'
+
+.stream_info_merged
+stats world -1
+c(-48.125, 0.314453125) a:101.0 b:0 count:0 (-24640.0,161.0) b'data/weather_gfx/limit_y/background_pyramid.png'
+c(-54.125, 0.314453125) a:101.0 b:0 count:0 (-27712.0,161.0) b'data/weather_gfx/limit_y/background_pyramid.png'
+c(-48.0, 0.0) a:99.9000015258789 b:0 count:0 (-24576.0,0.0) b'data/biome_impl/pyramid/right_background.png'
+c(-52.0, -2.0) a:99.9000015258789 b:0 count:0 (-26624.0,-1024.0) b'data/biome_impl/pyramid/left_background.png'
+c(-50.0, -2.0) a:99.9000015258789 b:0 count:0 (-25600.0,-1024.0) b'data/biome_impl/pyramid/right_background.png'
+c(-49.0, -1.0) a:99.9000015258789 b:0 count:0 (-25088.0,-512.0) b'data/biome_impl/pyramid/right_background.png'
+c(-54.0, 0.0) a:99.9000015258789 b:0 count:0 (-27648.0,0.0) b'data/biome_impl/pyramid/left_background.png'
+c(-51.0, -3.0) a:50.0 b:0 count:0 (-26112.0,-1536.0) b'data/biome_impl/pyramid/top_background.png'
+c(-53.0, -1.0) a:50.0 b:0 count:0 (-27136.0,-512.0) b'data/biome_impl/pyramid/entrance_background.png'
+c(-52.0, -0.5) a:40.0 b:0 count:0 (-26624.0,-256.0) b'data/weather_gfx/background_pyramid.png'
+c(-52.0, -1.0) a:40.0 b:0 count:0 (-26624.0,-512.0) b'data/weather_gfx/background_pyramid.png'
+
+
+stats world 4
+c(295.875, 0.314453125) a:101.0 b:0 count:0 (151488.0,161.0) b'data/weather_gfx/limit_y/background_pyramid.png'
+c(298.0, -2.0) a:99.9000015258789 b:0 count:0 (152576.0,-1024.0) b'data/biome_impl/pyramid/left_background.png'
+c(296.0, 0.0) a:99.9000015258789 b:0 count:0 (151552.0,0.0) b'data/biome_impl/pyramid/left_background.png'
+c(300.0, -2.0) a:99.9000015258789 b:0 count:0 (153600.0,-1024.0) b'data/biome_impl/pyramid/right_background.png'
+c(297.0, -1.0) a:50.0 b:0 count:0 (152064.0,-512.0) b'data/biome_impl/pyramid/entrance_background.png'
+c(299.0, -3.0) a:50.0 b:0 count:0 (153088.0,-1536.0) b'data/biome_impl/pyramid/top_background.png'
+c(298.0, -0.5) a:40.0 b:0 count:0 (152576.0,-256.0) b'data/weather_gfx/background_pyramid.png'
+c(298.0, -1.0) a:40.0 b:0 count:0 (152576.0,-512.0) b'data/weather_gfx/background_pyramid.png'

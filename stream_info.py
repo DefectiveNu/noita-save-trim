@@ -1,8 +1,8 @@
 from typing import List
 
-from constants import WORLD_PATH
+from constants import WORLD_PATH, KEEP_ALL_WORLDS_DIST, AGGRO_CLEAN_DIST, ALWAYS_KEEP, ALWAYS_PRUNE, DEBUG
 from tools.conversions import serialize_int, serialize_float, serialize_str
-from tools.coords import chunk_to_num
+from tools.coords import chunk_to_num, get_world_from_x
 from noita_bin_file import NoitaBinFile
 
 
@@ -67,6 +67,7 @@ class StreamInfoItem:
 
     def debug(self):
         print(f"a:{self.a} b:{self.b} count:{self.count} ({self.x},{self.y}) {self.path}")
+        #print(f"StreamInfoItem(None, {self.a}, {self.b}, {self.x}, {self.y}, {self.path}),")
 
 
 class ChunkStatus:
@@ -136,6 +137,12 @@ class StreamInfoFile(NoitaBinFile):
         if self.contents[self.read_pos:]:  # check for unread contents
             raise Exception("file not fully processed")
 
+    def trim(self):
+        if not trim_filter(self.items[0]):
+            self.items = [self.items[0]] + [item for item in self.items if not trim_filter(item)]
+        else:
+            self.items = [item for item in self.items if not trim_filter(item)]
+
     def save(self, suffix=""):
         self.read_pos = 0
         self.items[0].count = len(self.items)
@@ -171,3 +178,25 @@ class StreamInfoFile(NoitaBinFile):
         print("gap_1", self.gap_1.hex(' '))
         for csi in self.chunk_status_items:
             csi.debug()
+
+
+def trim_filter(item: StreamInfoItem) -> bool:
+    world = get_world_from_x(item.x)
+    if abs(world) <= KEEP_ALL_WORLDS_DIST:
+        return False
+    if abs(world) <= AGGRO_CLEAN_DIST:
+        delete_mode = "safe"
+    else:
+        delete_mode = "agro"
+    if delete_mode == "agro":
+        for inc_item in ALWAYS_KEEP:
+            if inc_item in item.path:
+                return False
+        if DEBUG: print(f"prune {world} {item} by agro")
+        return True
+    if delete_mode == "safe":
+        for prune_item in ALWAYS_PRUNE:
+            if prune_item in item.path:
+                if DEBUG: print(f"prune {world} {item} by {prune_item}")
+                return True
+        return False
