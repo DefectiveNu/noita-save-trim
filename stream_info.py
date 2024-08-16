@@ -41,6 +41,8 @@ class StreamInfoItem:
             self.path = path
 
     def __str__(self):
+        if self.count:
+            return f"StreamInfoItem({self.x}, {self.y}) count:{self.count} {self.path[:500].decode(errors='ignore')}"
         return f"StreamInfoItem({self.x}, {self.y}) {self.path[:500].decode(errors='ignore')}"
 
     #def __repr__(self):
@@ -138,8 +140,10 @@ class StreamInfoFile(NoitaBinFile):
             raise Exception("file not fully processed")
 
     def trim(self):
-        if not trim_filter(self.items[0]):
+        if trim_filter(self.items[0]):
+            print("saving root item, it would be pruned")
             self.items = [self.items[0]] + [item for item in self.items if not trim_filter(item)]
+            print(self.items[0])
         else:
             self.items = [item for item in self.items if not trim_filter(item)]
 
@@ -183,6 +187,7 @@ class StreamInfoFile(NoitaBinFile):
 def trim_filter(item: StreamInfoItem) -> bool:
     world = get_world_from_x(item.x)
     if abs(world) <= KEEP_ALL_WORLDS_DIST:
+        if DEBUG: print(f"keep {world} {item} by dist")
         return False
     if abs(world) <= AGGRO_CLEAN_DIST:
         delete_mode = "safe"
@@ -191,6 +196,7 @@ def trim_filter(item: StreamInfoItem) -> bool:
     if delete_mode == "agro":
         for inc_item in ALWAYS_KEEP:
             if inc_item in item.path:
+                if DEBUG: print(f"keep {world} {item} by agro")
                 return False
         if DEBUG: print(f"prune {world} {item} by agro")
         return True
@@ -199,4 +205,5 @@ def trim_filter(item: StreamInfoItem) -> bool:
             if prune_item in item.path:
                 if DEBUG: print(f"prune {world} {item} by {prune_item}")
                 return True
+        if DEBUG: print(f"keep {world} {item} by safe")
         return False

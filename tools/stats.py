@@ -7,7 +7,7 @@ from constants import WORLD_PATH
 from tools.conversions import serialize_float, bytes_to_int
 from tools.coords import get_world_from_x
 from tools.flatten import flatten
-from pixel_scenes import PixelScene
+from pixel_scenes import PixelScene, PixelSceneFile
 from stream_info import StreamInfoItem, StreamInfoFile
 from tools.util import pixel_scene_key, stream_info_key
 
@@ -152,20 +152,20 @@ def stream_info_non_default(items: List[StreamInfoItem]):
                 outliers.add(k)
 
 
-def stream_info_stats(si_file: StreamInfoFile, world_target=0, wps_items: List[PixelScene]=[]):
+def items_by_world(si_file: StreamInfoFile, wps_file: PixelSceneFile, world_target=0):
     items = si_file.items
     print(f"stats world {world_target}")
     item_stats = {}
     i = 0
-    min_x = 1_000_000_000
-    max_x = -1_000_000_000
-    min_y = 1_000_000_000
-    max_y = -1_000_000_000
+    #min_x = 1_000_000_000
+    #max_x = -1_000_000_000
+    #min_y = 1_000_000_000
+    #max_y = -1_000_000_000
     #items[0].debug()
     for item in items:
         i += 1
-        if b"pyramid" not in item.path:
-            continue
+        #if b"pyramid" not in item.path:
+        #    continue
         if get_world_from_x(item.x) != world_target:
             continue
         #print(i)
@@ -180,20 +180,35 @@ def stream_info_stats(si_file: StreamInfoFile, world_target=0, wps_items: List[P
         if key not in item_stats:
             item_stats[key] = 0
         item_stats[key] += 1
-        min_x = min(min_x, item.x)
-        max_x = max(max_x, item.x)
-        min_y = min(min_y, item.y)
-        max_y = max(max_y, item.y)
-    print(f"min {min_x, min_y}  max {max_x, max_y}")
-    for i in [str(item) for item in items if min_x <= item.x <= max_x and min_y <= item.y <= max_y]:
-        print(i)
-    for i in [str(item) for item in wps_items if min_x <= item.x <= max_x and min_y <= item.y <= max_y]:
-        print(i)
+        #min_x = min(min_x, item.x)
+        #max_x = max(max_x, item.x)
+        #min_y = min(min_y, item.y)
+        #max_y = max(max_y, item.y)
+    #print(f"min {min_x, min_y}  max {max_x, max_y}")
+    #for i in [str(item) for item in items if min_x <= item.x <= max_x and min_y <= item.y <= max_y]:
+    #    print(i)
+    #for i in [str(item) for item in wps_items if min_x <= item.x <= max_x and min_y <= item.y <= max_y]:
+    #    print(i)
     '''for cx in range(math.floor(min_x/512), math.ceil(max_x/512)):
         for cy in range(math.floor(min_y/512), math.ceil(max_y/512)):
             print(cx,cy, (cx,cy) in si_file.chunk_status_items)'''
-    return
+    #return
+    print("stream info")
     for k, v in sorted(item_stats.items(), key=lambda i: item_stats[i[0]]):
+        if v < 5: continue
         print(f"{v: 6d} \"{k}\",")
-    for k in sorted(item_stats.keys()):
-        print(k)
+    #for k in sorted(item_stats.keys()):
+    #    print(k)
+
+    item_stats = {}
+    for item in wps_file.scenes_1 + wps_file.scenes_2:
+        if get_world_from_x(item.x) != world_target:
+            continue
+        key = pixel_scene_key(item)
+        if key not in item_stats:
+            item_stats[key] = 0
+        item_stats[key] += 1
+    print("pixel scenes")
+    for k, v in sorted(item_stats.items(), key=lambda i: item_stats[i[0]]):
+        if v < 5: continue
+        print(f"{v: 6d} \"{k}\",")

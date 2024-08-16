@@ -1,3 +1,5 @@
+import math
+
 from constants import WORLD_CHUNK_WIDTH
 
 
@@ -43,11 +45,18 @@ def num_to_coords(num):
 
 def num_to_chunk(num):
     num = int(num)
+    #print(num)
     chunk_y = round(num / 2000)
+    #print("y", chunk_y, chunk_y * 512, (chunk_y * 2000), num, num-(chunk_y * 2000))
     chunk_x = num - (chunk_y * 2000)
+    #print("x", chunk_x, chunk_x * 512)
     return int(chunk_x), int(chunk_y)
 
 
 def chunk_to_num(chunk_x, chunk_y):
     num = 2000 * chunk_y + chunk_x
     return num
+
+
+def coords_to_num(x, y):
+    return (math.floor(y/512) * 2000) + math.floor(x/512)

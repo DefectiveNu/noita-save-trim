@@ -1,6 +1,110 @@
+import re
+from typing import Literal
+
 import fastlz
 import struct
 import os
+
+from tools.conversions import serialize_str, serialize_int, serialize_float, readable_bytes, hex_readable
+from tools.coords import num_to_coords
+
+
+class NoitaFileSection:
+    def __init__(self, value):
+        self.value = value
+
+    def serialize(self):
+        return self.value
+
+    def raw_len(self):
+        return len(self.value)
+
+    def readable_short(self):
+        return readable_bytes(self.value)
+
+    def readable_long(self):
+        return hex_readable(self.value)
+
+
+class NoitaRaw(NoitaFileSection, bytes):
+    @classmethod
+    def from_file(cls, file: "NoitaBinFile", read_len):
+        ret = NoitaRaw(file.contents[file.read_pos:file.read_pos + read_len])
+        file.read_pos += read_len
+        return ret
+
+
+class NoitaString(NoitaFileSection, bytes):
+    def __init__(self, value):
+        super().__init__(value)
+
+    def serialize(self):
+        return serialize_str(self.value)
+
+    @property
+    def raw_len(self):
+        return len(self.value) + 4
+
+    def readable_short(self):
+        return self.value.decode()
+
+    def readable_long(self):
+        return self.value.decode()
+
+
+class NoitaInt(NoitaFileSection, int):
+    raw_len = 4
+
+    def __init__(self, value):
+        super().__init__(value)
+
+    def serialize(self):
+        return serialize_int(self.value)
+
+    @classmethod
+    def from_bytes(cls, b, byteorder: Literal["little", "big"] = "big", signed=True):
+        return cls(int.from_bytes(b, byteorder, signed=signed))
+
+    @classmethod
+    def from_file(cls, file: "NoitaBinFile"):
+        ret = cls.from_bytes(file.contents[file.read_pos:file.read_pos + 4], 'big', signed=True)
+        file.read_pos += 4
+        return ret
+
+    def readable_short(self):
+        return str(self.value)
+
+    def readable_long(self):
+        return str(self.value)
+
+
+class NoitaFloat(NoitaFileSection):
+    raw_len = 4
+
+    def __init__(self, value):
+        super().__init__(value)
+
+    def serialize(self):
+        return serialize_float(self.value)
+
+    @classmethod
+    def from_bytes(cls, b, byteorder: Literal["little", "big"] = "big"):
+        step = 1
+        if byteorder == "big":
+            step = -1
+        return struct.unpack("f", b[::step])[0]
+
+    @classmethod
+    def from_file(cls, file: "NoitaBinFile"):
+        ret = cls.from_bytes(file.contents[file.read_pos:file.read_pos + 4], 'big')
+        file.read_pos += 4
+        return ret
+
+    def readable_short(self):
+        return f"{self.value:.1f}"
+
+    def readable_long(self):
+        return f"{self.value:.5e}"
 
 
 class NoitaBinFile:
@@ -28,13 +132,46 @@ class NoitaBinFile:
         else:
             self.contents = fastlz.decompress(file_input_bytes[4:])
 
-    def read_string(self, no_seek=False) -> bytes:
+    def coords(self):
+        try:
+            num = int(self.short_filename.split("_")[1].split(".bin")[0])
+            coord_x, coord_y = num_to_coords(num)
+        except:
+            print(f"file {self.short_filename} is not for a chunk!")
+            raise ValueError(f"file {self.short_filename} is not for a chunk!")
+        return coord_x, coord_y
+
+    def peek(self, peek_len):
+        return self.contents[self.read_pos:self.read_pos+peek_len]
+
+    def read_string(self, no_seek=False, sanity_check_len=500, quiet=False) -> bytes:
         str_len = int.from_bytes(self.contents[self.read_pos:self.read_pos + 4], 'big')
+        if str_len > sanity_check_len:
+            if not quiet:
+                print(f"tried to read a string with len {str_len}")
+                print(self.peek(50))
+            raise ValueError(f"tried to read a string with len {str_len}", self.peek(50))
         end_pos = self.read_pos + 4 + str_len
         str_contents = self.contents[self.read_pos + 4:end_pos]
         if not no_seek:
             self.read_pos = end_pos
         return str_contents
+
+    def read_nt_string(self, no_seek=False, sanity_check_len=500) -> bytes:
+        end_pos = self.read_pos
+        for i in range(sanity_check_len):
+            if self.contents[self.read_pos+i] == 0:
+                end_pos = i
+                break
+        str_contents = self.contents[self.read_pos:end_pos-1]
+        if not no_seek:
+            self.read_pos = end_pos
+        return str_contents
+
+    def read_until(self, term) -> bytes:
+        m = next(re.finditer(term, self.contents[self.read_pos:]))
+        print(f"read until {m.end()}")
+        return self.skip(m.end())
 
     def read_int(self, no_seek=False) -> int:
         ret = int.from_bytes(self.contents[self.read_pos:self.read_pos + 4], 'big', signed=True)

@@ -2,9 +2,9 @@ WORLD_PATH = "./save00/world/"
 
 WORLD_CHUNK_WIDTH = 70  # ng=70 ng+,nightmare=64
 
-KEEP_ALL_WORLDS_DIST = 3  # won't prune ANYTHING inside these worlds
+KEEP_ALL_WORLDS_DIST = 2  # won't prune ANYTHING inside these worlds
 # between these, "always prune" is active
-AGGRO_CLEAN_DIST = 10  # prune everything not in "always keep" at this distance
+AGGRO_CLEAN_DIST = 9  # prune everything not in "always keep" at this distance
 
 ALWAYS_KEEP = [
     b"temple",  # holy mountain stuff
@@ -55,7 +55,7 @@ ALWAYS_PRUNE = [
     b"snowcastle/paneling",
     b"snowcastle/chamfer",
     b"wandcave/floor_rubble",
-    b"vault/pipe",
+    b"vault/pillar",
 ]
 
 DEBUG = False

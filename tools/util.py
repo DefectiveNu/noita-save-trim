@@ -27,13 +27,24 @@ def pixel_scene_key(p: PixelScene) -> str:
     return key
 
 
-def try_strings(file: NoitaBinFile):
+def try_strings(file: NoitaBinFile, output=False, filter=None):
+    found_str = 0
     while len(file.contents) > file.read_pos:
         try:
             str_contents = file.read_string(True).decode("ascii")
         except:
             str_contents = ''
         if str_contents.isprintable() and len(str_contents):
-            print(str_contents, file.read_string())
+            out_str = file.read_string()
+            if filter and filter in out_str:
+                found_str += 1
+                if output:
+                    print(file.read_pos, out_str)
+            elif not filter:
+                found_str += 1
+                if output:
+                    print(file.read_pos, out_str)
+
         else:
             file.read_byte()
+    print(f"found {found_str} strings")
