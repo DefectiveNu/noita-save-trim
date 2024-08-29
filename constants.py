@@ -1,4 +1,6 @@
-WORLD_PATH = "./save00/world/"
+import os
+
+WORLD_PATH = f"{os.environ['LOCALAPPDATA']}/../LocalLow/Nolla_Games_Noita/save00/world/"
 
 WORLD_CHUNK_WIDTH = 70  # ng=70 ng+,nightmare=64
 

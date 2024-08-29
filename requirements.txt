@@ -1,2 +1,4 @@
 fastlz @ git+https://github.com/rdjliaison/python-fastlz.git@fix/py-ssize-t-clean
-python-magic
+coloredlogs
+psutil
+verboselogs

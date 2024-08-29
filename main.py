@@ -5,11 +5,11 @@ from tools.stats import items_by_world
 
 
 def trim_pixel_scenes():
-    psf = PixelSceneFile()
+    '''psf = PixelSceneFile()
     sif = StreamInfoFile()
     for w in range(-28, 42):
         items_by_world(sif, psf, w)
-    return
+    return'''
 
     f = PixelSceneFile()
     print(f"pre-prune  g1: {f.count_1: 5d}   g2: {f.count_2: 7d}")
@@ -19,7 +19,7 @@ def trim_pixel_scenes():
 
 
 def main():
-    #t1 = NoitaInt(1)
+    '''#t1 = NoitaInt(1)
     #print(t1)
     #print(t1.serialize())
     t2 = NoitaInt.from_bytes(b'\x00\x00\x00\x01')
@@ -30,7 +30,7 @@ def main():
     print(t2.serialize())
     print("=====")
     print(NoitaInt.from_file(None))
-    return
+    return'''
     trim_pixel_scenes()
     return
 

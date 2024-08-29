@@ -1,7 +1,8 @@
+from pprint import pprint
 from typing import List
 
 from constants import WORLD_PATH, KEEP_ALL_WORLDS_DIST, AGGRO_CLEAN_DIST, ALWAYS_KEEP, ALWAYS_PRUNE, DEBUG
-from tools.conversions import serialize_int, serialize_float, serialize_str
+from tools.conversions import serialize_int, serialize_float, serialize_str, bytes_to_int
 from tools.coords import chunk_to_num, get_world_from_x
 from noita_bin_file import NoitaBinFile
 
@@ -122,7 +123,7 @@ class StreamInfoFile(NoitaBinFile):
         assert self.version == 24
         self.seed = self.read_int()
         self.frames_played = self.read_int()
-        self.header_unk_1 = self.read_int()
+        self.header_unk_1 = self.skip(4)
         self.items = [StreamInfoItem(self)]
         count = self.items[0].count
         for i in range(1, count):
@@ -207,3 +208,36 @@ def trim_filter(item: StreamInfoItem) -> bool:
                 return True
         if DEBUG: print(f"keep {world} {item} by safe")
         return False
+
+def main():
+    '''fake_si = NoitaBinFile(WORLD_PATH + ".stream_info")
+    fake_si.contents += serialize_int(24)
+    fake_si.contents += serialize_int(123456789)
+    fake_si.save_compressed()
+    return'''
+
+    for fname in [".stream_info", ".stream_info_1", ".stream_info_1_2"]:
+        print(f"============ {fname} ===============")
+        f = StreamInfoFile(WORLD_PATH+fname)
+        print("version", f.version)
+        print("seed", f.seed)
+        print("frames played", f.frames_played)
+        print("header_unk1", f.header_unk_1.hex(' '), bytes_to_int(f.header_unk_1))
+        print("items", len(f.items))
+        #for i in f.items:
+        #    print(i)
+        print("unk_1", f.unk_1)
+        print("unk_2", f.unk_2)
+        print("unk_3", f.unk_3)
+        print("count_chunk_status", f.count_chunk_status)
+        print("schema", f.schema)
+        print("gap_1", f.gap_1.hex(' '))
+        print("chunk_status_items", len(f.chunk_status_items))
+        #for csi in f.chunk_status_items:
+        #    print(csi)
+
+
+if __name__ == '__main__':
+    main()
+
+

@@ -5,7 +5,8 @@ import fastlz
 import struct
 import os
 
-from tools.conversions import serialize_str, serialize_int, serialize_float, readable_bytes, hex_readable
+from tools.conversions import serialize_str, serialize_int, serialize_float, readable_bytes, hex_readable, \
+    ReadableBytes, ReadableHex
 from tools.coords import num_to_coords
 
 
@@ -16,6 +17,7 @@ class NoitaFileSection:
     def serialize(self):
         return self.value
 
+    @property
     def raw_len(self):
         return len(self.value)
 
@@ -25,6 +27,9 @@ class NoitaFileSection:
     def readable_long(self):
         return hex_readable(self.value)
 
+    def to_dict(self, **kwargs):
+        return self.value
+
 
 class NoitaRaw(NoitaFileSection, bytes):
     @classmethod
@@ -33,6 +38,17 @@ class NoitaRaw(NoitaFileSection, bytes):
         file.read_pos += read_len
         return ret
 
+    def to_dict(self, raw_as="both", hex_group=1, **kwargs):
+        if raw_as == "hex":
+            return self.hex(' ', hex_group)
+        if raw_as == "hex_readable":
+            return hex_readable(self)
+        if raw_as == "bytes":
+            return hex_readable(self)
+        if raw_as == "both":
+            return {"hex": self.hex(' ', -4), "bytes": readable_bytes(self)}
+        if raw_as == "length":
+            return len(self)
 
 class NoitaString(NoitaFileSection, bytes):
     def __init__(self, value):
@@ -49,6 +65,9 @@ class NoitaString(NoitaFileSection, bytes):
         return self.value.decode()
 
     def readable_long(self):
+        return self.value.decode()
+
+    def to_dict(self, **kwargs):
         return self.value.decode()
 
 
@@ -78,7 +97,61 @@ class NoitaInt(NoitaFileSection, int):
         return str(self.value)
 
 
-class NoitaFloat(NoitaFileSection):
+class NoitaByte(NoitaInt):
+    raw_len = 1
+
+    def __init__(self, value):
+        super().__init__(value)
+
+    def serialize(self):
+        #TODO
+        raise NotImplemented()
+
+    @classmethod
+    def from_bytes(cls, *args, **kwargs):
+        raise ValueError("tried from_bytes on single byte!")
+
+    @classmethod
+    def from_file(cls, file: "NoitaBinFile"):
+        ret = file.contents[file.read_pos]
+        file.read_pos += 1
+        return ret
+
+    def readable_short(self):
+        return str(self.value)
+
+    def readable_long(self):
+        return str(self.value)
+
+
+class NoitaBool(NoitaFileSection):
+    raw_len = 1
+
+    def __init__(self, value):
+        super().__init__(value)
+
+    def serialize(self):
+        #TODO
+        raise NotImplemented()
+
+    @classmethod
+    def from_bytes(cls, *args, **kwargs):
+        raise ValueError("tried from_bytes on single byte!")
+
+    @classmethod
+    def from_file(cls, file: "NoitaBinFile"):
+        ret = file.contents[file.read_pos]
+        file.read_pos += 1
+        return ret
+
+    def readable_short(self):
+        return bool(self.value)
+
+    def readable_long(self):
+        return bool(self.value)
+
+
+class NoitaFloat(NoitaFileSection, float):
     raw_len = 4
 
     def __init__(self, value):
@@ -119,10 +192,12 @@ class NoitaBinFile:
         self.short_filename = os.path.basename(filename)
         self.filename = filename
         self.read_pos = 0
+        self.contents = b''
 
-    def read_file(self):
-        with open(self.filename, "rb") as f:
-            file_input_bytes = f.read()
+    def read_file(self, file_input_bytes=b''):
+        if file_input_bytes == b'':
+            with open(self.filename, "rb") as f:
+                file_input_bytes = f.read()
         self.compressed_size = int.from_bytes(file_input_bytes[0:4], 'little')
         #print("compressed size:", self.compressed_size, len(file_input_bytes))
         self.decompressed_size = int.from_bytes(file_input_bytes[4:8], 'little')
@@ -137,25 +212,25 @@ class NoitaBinFile:
             num = int(self.short_filename.split("_")[1].split(".bin")[0])
             coord_x, coord_y = num_to_coords(num)
         except:
-            print(f"file {self.short_filename} is not for a chunk!")
+            #print(f"file {self.short_filename} is not for a chunk!")
             raise ValueError(f"file {self.short_filename} is not for a chunk!")
         return coord_x, coord_y
 
-    def peek(self, peek_len):
-        return self.contents[self.read_pos:self.read_pos+peek_len]
+    def peek(self, peek_len, peek_start_offset=0):
+        return self.contents[self.read_pos+peek_start_offset:self.read_pos+peek_len]
 
     def read_string(self, no_seek=False, sanity_check_len=500, quiet=False) -> bytes:
         str_len = int.from_bytes(self.contents[self.read_pos:self.read_pos + 4], 'big')
         if str_len > sanity_check_len:
-            if not quiet:
-                print(f"tried to read a string with len {str_len}")
-                print(self.peek(50))
-            raise ValueError(f"tried to read a string with len {str_len}", self.peek(50))
+            #if not quiet:
+            #    print(f"tried to read a string with len {str_len}")
+            #    print(self.peek(50))
+            raise ValueError(f"tried to read a string with len {str_len}", ReadableBytes(self.peek(50)), ReadableHex(self.peek(100,-90)))
         end_pos = self.read_pos + 4 + str_len
         str_contents = self.contents[self.read_pos + 4:end_pos]
         if not no_seek:
             self.read_pos = end_pos
-        return str_contents
+        return NoitaString(str_contents)
 
     def read_nt_string(self, no_seek=False, sanity_check_len=500) -> bytes:
         end_pos = self.read_pos
@@ -177,19 +252,19 @@ class NoitaBinFile:
         ret = int.from_bytes(self.contents[self.read_pos:self.read_pos + 4], 'big', signed=True)
         if not no_seek:
             self.read_pos += 4
-        return ret
+        return NoitaInt(ret)
 
     def read_float(self, no_seek=False) -> float:
         ret = struct.unpack("f", self.contents[self.read_pos:self.read_pos + 4][::-1])[0]
         if not no_seek:
             self.read_pos += 4
-        return ret
+        return NoitaFloat(ret)
 
     def read_byte(self, no_seek=False) -> int:
         ret = self.contents[self.read_pos]
         if not no_seek:
             self.read_pos += 1
-        return ret
+        return NoitaByte(ret)
 
     def skip(self, amt, show=False):
         if show:
@@ -197,10 +272,11 @@ class NoitaBinFile:
             print(f"{self.read_pos} skip {amt} {len(skip_contents)} {skip_contents} {skip_contents.hex(' ')}")
         ret = self.contents[self.read_pos:self.read_pos+amt]
         self.read_pos += amt
-        return ret
+        return NoitaRaw(ret)
 
     def __str__(self):
-        return f"NoitaBinFile {self.short_filename} size {len(self.contents)} at {self.read_pos} {100*self.read_pos/self.decompressed_size:3.2f}%"
+        if hasattr(self, "decompressed_size"):
+            return f"NoitaBinFile {self.short_filename} size {len(self.contents)} at {self.read_pos} {100*self.read_pos/self.decompressed_size:3.2f}%"
 
     def save_decompressed(self):
         size_bytes = int.to_bytes(self.decompressed_size or len(self.contents), 4, 'little')
@@ -213,3 +289,4 @@ class NoitaBinFile:
         compressed_size = int.to_bytes(len(compressed_contents)-4, 4, 'little')
         with open(self.filename + suffix, "wb") as f:
             f.write(compressed_size + compressed_contents)
+        return

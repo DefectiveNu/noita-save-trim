@@ -1,4 +1,5 @@
 import struct
+import sys
 from typing import Literal
 
 
@@ -61,7 +62,30 @@ def hex_readable(b: bytes):
     return " ".join(ret)
 
 
+class ReadableBytes:
+    b: bytes
+    def __init__(self, b: bytes):
+        self.b = b
+    def __str__(self):
+        return readable_bytes(self.b)
+class ReadableHex:
+    b: bytes
+    def __init__(self, b: bytes):
+        self.b = b
+    def __str__(self):
+        return hex_readable(self.b)
+class BytesToPixels:
+    b: bytes
+    def __init__(self, b: bytes, dimx, dimy):
+        self.b = b
+        self.dimx = dimx
+        self.dimy = dimy
+    def __str__(self):
+        return bytes_to_pixels(self.b, self.dimx, self.dimy)
+
+
 def next_string(b: bytes):
+    # note: this misses strings that extend past the end of supplied bytes
     for i in range(len(b)):
         str_len = int.from_bytes(b[i:i + 4], 'big')
         if 1 < str_len < len(b):
